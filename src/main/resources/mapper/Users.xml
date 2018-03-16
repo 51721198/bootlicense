@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.snake.bootlicense.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.kevin.snake.bootlicense.pojo.User">
+        <id column="id" property="userID" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="usergroup" property="usergroup" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,password,usergroup
+    </sql>
+
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+    </select>
+
+    <insert id="addUser" parameterType="com.kevin.snake.bootlicense.pojo.User">
+        insert into user
+        (id,username,password,usergroup)
+        values (#{userID,jdbcType=INTEGER},
+        #{username,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{usergroup,jdbcType=INTEGER})
+    </insert>
+
+    <select id="getUserByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        ORDER BY id
+        limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
+    </select>
+
+    <select id="getTotal" resultType="INTEGER">
+        select
+        count(id)
+        from user
+    </select>
+
+    <select id="getUserByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where
+        username = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <update id="modifyUserByID" parameterType="com.kevin.snake.bootlicense.pojo.User">
+        update user
+        set
+        id = #{userID,jdbcType=INTEGER},
+        username=#{username,jdbcType=VARCHAR},
+        password=#{password,jdbcType=VARCHAR},
+        usergroup=#{usergroup,jdbcType=INTEGER}
+        where
+        id = #{userID,jdbcType=INTEGER}
+    </update>
+</mapper>

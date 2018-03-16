@@ -9,16 +9,14 @@ import com.kevin.snake.bootlicense.pojo.UserByPage;
 import com.kevin.snake.bootlicense.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -27,17 +25,17 @@ import java.util.Set;
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImp implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImp.class);
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-    @Autowired
+    @Resource
     private TokenManager tokenManager;
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, User> redisTemplate;
 
-    @Autowired
-    private RedisCacheManager manager;
+//    @Resource
+//    private RedisCacheManager manager;
 
     @Override
     public List<User> SelectAllUsers() {
@@ -136,9 +134,9 @@ public class UserServiceImp implements UserService {
 
         System.out.println(String.valueOf(userIncache));
         Set<String> set = redisTemplate.keys("*");
-        Collection<String> set2 = manager.getCacheNames();
+//        Collection<String> set2 = manager.getCacheNames();
         set.forEach(System.out::println);
-        set2.forEach(System.out::println);
+//        set2.forEach(System.out::println);
         // TODO Auto-generated method stub
         int usergroup = -1;
         User user2 = userDao.getUserByName(user.getUsername());

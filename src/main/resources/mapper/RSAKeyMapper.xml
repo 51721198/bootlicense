@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.snake.bootlicense.dao.RSAKeyDao">
+    <resultMap id="BaseResultMap" type="com.kevin.snake.bootlicense.pojo.RSAKey">
+        <id column="key_id" property="keyId" jdbcType="INTEGER"/>
+        <result column="private_key" property="privateKey" jdbcType="BLOB"/>
+        <result column="public_key" property="publicKey" jdbcType="BLOB"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        key_id, public_key, private_key
+    </sql>
+
+    <select id="selectKeyByID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from rsa_key
+        where key_id = (select max(key_id) from rsa_key)
+    </select>
+
+    <select id="showAllKeys" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from rsa_key
+    </select>
+
+    <insert id="insertRSAKeyPair" parameterType="com.kevin.snake.bootlicense.pojo.RSAKey">
+        insert into rsa_key
+        (key_id,private_key,public_key)
+        values (#{keyId,jdbcType=INTEGER}, #{privateKey,jdbcType=BLOB},#{publicKey,jdbcType=BLOB})
+    </insert>
+</mapper>

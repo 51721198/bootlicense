@@ -1,8 +1,8 @@
 package com.kevin.snake.bootlicense.dao;
 
 import com.kevin.snake.bootlicense.pojo.Hospital;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author: Liu.Dun
  * @date: 2016年6月27日 下午8:45:17
  */
-@Component
+@Mapper
 public interface HospitalDao {
     int deleteByPrimaryKey(Integer hospitalNumber);
 

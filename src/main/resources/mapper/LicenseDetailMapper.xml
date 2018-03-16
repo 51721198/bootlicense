@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.snake.bootlicense.dao.LicenseDao">
+
+    <resultMap id="BaseResultMap" type="com.kevin.snake.bootlicense.pojo.LicenseDetail">
+        <id column="serial_number_id" property="serialNumberId" jdbcType="INTEGER"/>
+        <result column="source_number" property="sourceNumber" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="DATE"/>
+        <result column="expired_date" property="expiredDate" jdbcType="DATE"/>
+        <result column="encrypted_number" property="encryptedNumber" jdbcType="VARCHAR"/>
+        <result column="hospital_number" property="hospitalNumber" jdbcType="INTEGER"/>
+        <result column="license_state" property="licenseState" jdbcType="INTEGER"/>
+        <result column="key_id" property="keyId" jdbcType="INTEGER"/>
+        <association property="hospital" javaType="com.kevin.snake.bootlicense.pojo.Hospital" resultMap="HospitalMap"/>
+        <association property="rsaKey" javaType="com.kevin.snake.bootlicense.pojo.RSAKey" resultMap="RSAkeyMap"/>
+    </resultMap>
+
+    <resultMap id="HospitalMap" type="com.kevin.snake.bootlicense.pojo.Hospital">
+        <id column="hospital_number" property="hospitalNumber" jdbcType="INTEGER"/>
+        <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR"/>
+        <result column="hospital_phone" property="hospitalPhone" jdbcType="VARCHAR"/>
+        <result column="hospital_address" property="hospitalAddress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="RSAkeyMap" type="com.kevin.snake.bootlicense.pojo.RSAKey">
+        <id column="key_id" property="keyId" jdbcType="INTEGER"/>
+        <result column="private_key" property="privateKey" jdbcType="BLOB"/>
+        <result column="public_key" property="publicKey" jdbcType="BLOB"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        serial_number_id, source_number, create_date, expired_date, encrypted_number,
+        hospital_number,license_state,key_id
+    </sql>
+
+    <sql id="Base_Hospital_List">
+        hospital_number,hospital_name, hospital_phone, hospital_address
+    </sql>
+
+    <select id="selectLicenseByHospitalNumber" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from license_detail
+        where hospital_number = #{serialNumberId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from license_detail
+        where serial_number_id = #{serialNumberId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectCountLicenses" resultType="INTEGER">
+        select
+        count(serial_number_id)
+        from license_detail
+    </select>
+
+    <select id="selectAllLicensesByPage" resultMap="BaseResultMap">
+        select
+        l.serial_number_id, l.source_number, l.create_date, l.expired_date, l.encrypted_number,
+        l.hospital_number,l.license_state,
+        h.hospital_number, h.hospital_name, h.hospital_phone, h.hospital_address
+        from license_detail as l inner join license_hospital as h
+        on l.hospital_number = h.hospital_number
+        order by l.serial_number_id
+        limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
+    </select>
+
+    <!-- detail+hospital双表联合查询 -->
+    <select id="selectAllLicenses" resultMap="BaseResultMap">
+        select
+        l.serial_number_id, l.source_number, l.create_date, l.expired_date, l.encrypted_number,
+        l.hospital_number,l.license_state,
+        h.hospital_number, h.hospital_name, h.hospital_phone, h.hospital_address
+        from license_detail as l inner join license_hospital as h
+        on l.hospital_number = h.hospital_number
+        order by l.serial_number_id
+    </select>
+
+
+    <!-- detail+rsa_key双表联合查询 -->
+    <select id="selectCodeAndRSAByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        l.encrypted_number,
+        r.key_id,
+        r.private_key
+        from license_detail as l inner join rsa_key as r
+        on l.key_id= r.key_id
+        where serial_number_id = #{serialNumberId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from license_detail
+        where serial_number_id = #{serialNumberId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertLicenseDetail" parameterType="com.kevin.snake.bootlicense.pojo.LicenseDetail">
+        insert into license_detail (
+        serial_number_id,
+        source_number,
+        create_date,
+        expired_date,
+        encrypted_number,
+        hospital_number,
+        license_state,
+        key_id)
+        values (
+        #{serialNumberId,jdbcType=INTEGER},
+        #{sourceNumber,jdbcType=VARCHAR},
+        #{createDate,jdbcType=DATE},
+        #{expiredDate,jdbcType=DATE},
+        #{encryptedNumber,jdbcType=VARCHAR},
+        #{hospitalNumber,jdbcType=INTEGER},
+        #{licenseState,jdbcType=INTEGER},
+        #{keyId,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.kevin.snake.bootlicense.pojo.LicenseDetail">
+        update license_detail
+        set source_number = #{sourceNumber,jdbcType=VARCHAR},
+        create_date = #{createDate,jdbcType=DATE},
+        expired_date = #{expiredDate,jdbcType=DATE},
+        encrypted_number = #{encryptedNumber,jdbcType=VARCHAR},
+        hospital_number = #{hospitalNumber,jdbcType=INTEGER},
+        license_state = #{licenseState,jdbcType=INTEGER},
+        key_id = #{keyId,jdbcType=INTEGER}
+        where serial_number_id = #{serialNumberId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

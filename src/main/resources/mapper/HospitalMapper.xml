@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kevin.snake.bootlicense.dao.HospitalDao">
+    <resultMap id="BaseResultMap" type="com.kevin.snake.bootlicense.pojo.Hospital">
+        <id column="hospital_number" property="hospitalNumber" jdbcType="INTEGER"/>
+        <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR"/>
+        <result column="hospital_phone" property="hospitalPhone" jdbcType="VARCHAR"/>
+        <result column="hospital_address" property="hospitalAddress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        hospital_number, hospital_name, hospital_phone, hospital_address
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from license_hospital
+        where hospital_number = #{hospitalNumber,jdbcType=INTEGER}
+    </select>
+
+    <select id="showAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from license_hospital
+    </select>
+
+    <select id="selectAllHospitalsByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from license_hospital
+        order by hospital_number
+        limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectCountHospitals" resultType="INTEGER">
+        select
+        count(hospital_number)
+        from license_hospital
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from license_hospital
+        where hospital_number = #{hospitalNumber,jdbcType=INTEGER}
+    </delete>
+
+
+    <insert id="insertHospital" parameterType="com.kevin.snake.bootlicense.pojo.Hospital">
+        insert into license_hospital (hospital_name, hospital_phone,
+        hospital_address)
+        values (#{hospitalName,jdbcType=VARCHAR}, #{hospitalPhone,jdbcType=VARCHAR},
+        #{hospitalAddress,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.kevin.snake.bootlicense.pojo.Hospital">
+        update license_hospital
+        set hospital_name = #{hospitalName,jdbcType=VARCHAR},
+        hospital_phone = #{hospitalPhone,jdbcType=VARCHAR},
+        hospital_address = #{hospitalAddress,jdbcType=VARCHAR}
+        where hospital_number = #{hospitalNumber,jdbcType=INTEGER}
+    </update>
+</mapper>

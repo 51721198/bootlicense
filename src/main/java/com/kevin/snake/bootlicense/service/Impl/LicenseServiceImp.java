@@ -18,10 +18,10 @@ import com.kevin.snake.bootlicense.util.rsa.RSAKeyPair;
 import com.kevin.snake.bootlicense.util.rsa.RSAdoEncrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,13 +33,13 @@ import java.util.Map;
 @Transactional(rollbackFor = Exception.class)
 public class LicenseServiceImp implements LicenseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LicenseServiceImp.class);
-    @Autowired
+    @Resource
     private LicenseDao licensedao;
 
-    @Autowired
+    @Resource
     private HospitalDao hospitaldao;
 
-    @Autowired
+    @Resource
     private RSAKeyDao rsakeydao;
 
     @Override

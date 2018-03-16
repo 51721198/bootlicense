@@ -1,9 +1,9 @@
 package com.kevin.snake.bootlicense.dao;
 
 import com.kevin.snake.bootlicense.pojo.RSAKey;
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Mapper;
 
-@Component
+@Mapper
 public interface RSAKeyDao {
 
     int insertRSAKeyPair(RSAKey rsakeypair);

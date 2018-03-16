@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @RestController
-@RequestMapping(value = "/")
 public class BounceController {
     public static final Logger LOGGER = LoggerFactory.getLogger(BounceController.class);
 

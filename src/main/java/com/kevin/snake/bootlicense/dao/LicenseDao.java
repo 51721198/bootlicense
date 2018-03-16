@@ -1,8 +1,8 @@
 package com.kevin.snake.bootlicense.dao;
 
 import com.kevin.snake.bootlicense.pojo.LicenseDetail;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author: Liu.Dun
  * @date: 2016年6月27日 下午8:46:25
  */
-@Component
+@Mapper
 public interface LicenseDao {
     int deleteByPrimaryKey(Integer serialNumberId);
 
