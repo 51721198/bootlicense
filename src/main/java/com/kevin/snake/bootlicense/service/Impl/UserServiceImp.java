@@ -158,6 +158,7 @@ public class UserServiceImp implements UserService {
     public String createToken(String username) {
         String token = "";
         token = tokenManager.createToken(username);
+        System.out.println("created token is: " + token);
         return token;
     }
 

@@ -69,6 +69,7 @@ public class SecurityAspect {
         System.out.println(WebContext.getRequest());
         if (StringUtils.isBlank(tokenName)) tokenName = DEFAULT_TOKEN_NAME;
         String token = WebContext.getRequest().getHeader(tokenName);
+        System.out.println("token is : " + token);
 
         //检查token的有效性
         if (!tokenManager.checkToken(token)) {
