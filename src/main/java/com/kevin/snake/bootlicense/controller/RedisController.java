@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 @RequestMapping(value = "redis")
 public class RedisController {
 
+    //redisTemplate有许多的坑,用前三思
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
