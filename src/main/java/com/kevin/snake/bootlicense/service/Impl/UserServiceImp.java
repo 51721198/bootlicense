@@ -141,15 +141,13 @@ public class UserServiceImp implements UserService {
         int usergroup = -1;
         User user2 = userDao.getUserByName(user.getUsername());
 
-        try {
-            if (user2 != null) {
-                if (user2.getPassword().equals(user.getPassword())) {
-                    usergroup = user2.getUsergroup();
+        if (user2 != null) {
+            if (user2.getPassword().equals(user.getPassword())) {
+                usergroup = user2.getUsergroup();
 //                    redisTemplate.opsForValue().set("licenseUser:"+user.getUsername()+"",user);
-                }
+            }else {
+                return -1;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return usergroup;
     }

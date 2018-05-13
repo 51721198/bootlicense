@@ -12,6 +12,7 @@ public enum SysMsgEnum {
     HTTP_REQUEST_METHOD_ERROR(7, "http请求方式错误", "request_method_error"),
     DATABASE_OPERATION_ERROR(8, "数据库操作失败", "sql_error"),
     BIND_EXCEPTION(10, "socket连接异常", "bind_error"),
+    LOGIN_FAIL(-1, "用户名或密码错误", "password_error"),
 
     //电子发票业务错误码
     SEND_REQUEST_ERROR(1301, "服务商接口调用失败", "web_socket_error"),

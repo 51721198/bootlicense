@@ -83,18 +83,20 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ProcessResult userLogin(@RequestBody User user) {
         ProcessResult<String> result = new ProcessResult<>();
-        int usergroup = -1;
-        try {
-            if (user != null) {
-                usergroup = userService.userLogin(user);
-                result.setResultcode(usergroup);
-                result.setResult(ProcessResultEnum.SUCCESS,userService.createToken(user.getUsername()));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (user == null){
+            result.setResultcode(-1);
+            return result;
         }
+        int usergroup;
+        usergroup = userService.userLogin(user);
+        if (usergroup == -1){
+            result.setResultcode(-1);
+            result.setResult(ProcessResultEnum.LOGIN_FAIL);
+            return result;
+        }
+        result.setResultcode(usergroup);
+        result.setResult(ProcessResultEnum.SUCCESS, userService.createToken(user.getUsername()));
         return result;
     }
-
 }
 

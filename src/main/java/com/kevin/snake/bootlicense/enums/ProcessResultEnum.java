@@ -6,7 +6,8 @@ public enum ProcessResultEnum {
     INS_FAIL(101, "添加失败"),
     UPD_FAIL(102, "修改失败"),
     DEL_FAIL(103, "删除失败"),
-    QUE_FAIL(104,"查询异常");
+    QUE_FAIL(104,"查询异常"),
+    LOGIN_FAIL(-1, "用户名或密码错误");
 
     private int code;
     private String msg;
