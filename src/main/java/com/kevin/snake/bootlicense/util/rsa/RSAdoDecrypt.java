@@ -1,15 +1,15 @@
 package com.kevin.snake.bootlicense.util.rsa;
 
 import com.kevin.snake.bootlicense.util.FileNames;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.security.Key;
 
+@Slf4j
 public class RSAdoDecrypt {
 
     /**
@@ -21,7 +21,6 @@ public class RSAdoDecrypt {
      * @throws Exception
      */
     private static final String ALGORITHM = "RSA";
-    private static final Logger LOGGER = LoggerFactory.getLogger(RSAdoDecrypt.class);
 
     public static String decrypt(String cryptograph) throws Exception {
         Key privateKey;

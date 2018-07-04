@@ -4,8 +4,7 @@ import com.kevin.snake.bootlicense.dao.HospitalDao;
 import com.kevin.snake.bootlicense.pojo.DatatableModel;
 import com.kevin.snake.bootlicense.pojo.Hospital;
 import com.kevin.snake.bootlicense.service.HospitalService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +13,8 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class HospitalServiceImp implements HospitalService {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(HospitalServiceImp.class);
-
 
     @Resource
     private HospitalDao hospitaldao;
@@ -26,7 +23,7 @@ public class HospitalServiceImp implements HospitalService {
 //    @PreAuthorize("hasRole(admin)")
     public List<Hospital> showAllHospitals() {
 
-        System.out.println("can heere");
+        log.info("can heere");
 
         List<Hospital> list = hospitaldao.showAll();
         return list;

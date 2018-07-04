@@ -1,6 +1,7 @@
 package com.kevin.snake.bootlicense.filter;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Order(1)
 @WebFilter(filterName = "corsFilter", urlPatterns = "/*")
+@Slf4j
 public class CorsFilter implements Filter {
 
     @Value("${allowOrigin}")
@@ -44,14 +46,14 @@ public class CorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;       //将servletRequest强制转换为httpServletRequest
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (StringUtils.isNotEmpty(allowOrigin)) {
+        if (StringUtils.isNotBlank(allowOrigin)) {
             List<String> allowOriginList = Arrays.asList(allowOrigin.split(","));   //允许的客户端域名放入一个列表中,以逗号分隔,破解不允许指定多个域名的限制
             if (allowOriginList.size() != 0) {
                 String currentOrigin = request.getHeader("Origin");
-                System.out.println("currentOrigin is:" + currentOrigin);
+                log.info("currentOrigin is:" + currentOrigin);
                 if (allowOriginList.contains(currentOrigin)) {  //如果请求的域名在允许列表当中,那就给请求加一个跨域的请求头
-                    System.out.println("cros can here!!!!!!!!");
-                    System.out.println(currentOrigin);
+                    log.info("cros can here!!!!!!!!");
+                    log.info(currentOrigin);
                     response.setHeader("Access-Control-Allow-Origin", currentOrigin);
                 }
             }

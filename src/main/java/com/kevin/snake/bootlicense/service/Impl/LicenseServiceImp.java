@@ -16,8 +16,7 @@ import com.kevin.snake.bootlicense.util.ZIPFiles;
 import com.kevin.snake.bootlicense.util.rsa.RSACreateSourceCode;
 import com.kevin.snake.bootlicense.util.rsa.RSAKeyPair;
 import com.kevin.snake.bootlicense.util.rsa.RSAdoEncrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +30,8 @@ import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class LicenseServiceImp implements LicenseService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LicenseServiceImp.class);
     @Resource
     private LicenseDao licensedao;
 
@@ -85,7 +84,7 @@ public class LicenseServiceImp implements LicenseService {
             encryptcode = RSAdoEncrypt.encrypt(code, publickey); // RSA算法加密
 
         } catch (Exception e) {
-            LOGGER.error("exception:{}", e);
+            log.error("exception:{}", e);
         }
         return encryptcode;
     }
@@ -189,7 +188,7 @@ public class LicenseServiceImp implements LicenseService {
             rsaKey.setPrivateKey(pri);
             rsaKey.setPublicKey(pub);
         } catch (Exception e) {
-            LOGGER.error("exception:{}", e);
+            log.error("exception:{}", e);
         }
         try {
             i = rsakeydao.insertRSAKeyPair(rsaKey);

@@ -7,8 +7,7 @@ import com.kevin.snake.bootlicense.pojo.DataTableRequest;
 import com.kevin.snake.bootlicense.pojo.User;
 import com.kevin.snake.bootlicense.pojo.UserByPage;
 import com.kevin.snake.bootlicense.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,8 +22,8 @@ import java.util.Set;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class UserServiceImp implements UserService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImp.class);
     @Resource
     private UserDao userDao;
 
@@ -61,7 +60,7 @@ public class UserServiceImp implements UserService {
         try {
             res = userDao.addUser(user);
         } catch (Exception e) {
-            LOGGER.error("add user exception:{}", user.toString(), e);
+            log.error("add user exception:{}", user.toString(), e);
         }
         return res;
     }
@@ -90,7 +89,7 @@ public class UserServiceImp implements UserService {
         result.setData(users);
         result.setRecordsTotal(recordsTotal);
         result.setRecordsFiltered(filterRecordsTotal);
-        System.out.println("service>>>>>>>>>>" + JSON.toJSONString(result));
+        log.info("service>>>>>>>>>>" + JSON.toJSONString(result));
         return result;
     }
 
@@ -126,13 +125,13 @@ public class UserServiceImp implements UserService {
 
         //template手动操作缓存
 //        if (userIncache != null) {
-//            System.out.println("缓存有此结果,查缓存进行比较");
+//            log.info("缓存有此结果,查缓存进行比较");
 //            if (!user.getPassword().equals(userIncache.getPassword())) return -1;
 //        }else {
-//            System.out.println("缓存查无结果,查数据库如果合法则放进缓存");
+//            log.info("缓存查无结果,查数据库如果合法则放进缓存");
 //        }
 
-        System.out.println(String.valueOf(userIncache));
+        log.info(String.valueOf(userIncache));
         Set<String> set = redisTemplate.keys("*");
 //        Collection<String> set2 = manager.getCacheNames();
         set.forEach(System.out::println);
@@ -156,7 +155,7 @@ public class UserServiceImp implements UserService {
     public String createToken(String username) {
         String token = "";
         token = tokenManager.createToken(username);
-        System.out.println("created token is: " + token);
+        log.info("created token is: " + token);
         return token;
     }
 

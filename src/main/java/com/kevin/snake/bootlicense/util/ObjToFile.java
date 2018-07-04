@@ -1,16 +1,14 @@
 package com.kevin.snake.bootlicense.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+@Slf4j
 public class ObjToFile {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjToFile.class);
-
     public static boolean object2File(Object object) {
         boolean processflag = true;
         String path = ClassPathResourceURI.getResourceURI("/").getPath();
@@ -20,14 +18,14 @@ public class ObjToFile {
             oos.writeObject(object);
             oos.flush();
         } catch (Exception e) {
-            LOGGER.error(e + "生成私钥有问题!");
+            log.error(e + "生成私钥有问题!");
             processflag = false;
             return processflag;
         } finally {
             try {
                 oos.close();
             } catch (IOException e) {
-                LOGGER.error("exception:{}", e);
+                log.error("exception:{}", e);
             }
         }
         return processflag;

@@ -1,8 +1,7 @@
 package com.kevin.snake.bootlicense.controller;
 
 import com.alibaba.fastjson.JSON;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
@@ -22,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @RestController
+@Slf4j
 public class BounceController {
-    public static final Logger LOGGER = LoggerFactory.getLogger(BounceController.class);
 
     @Resource
     private Environment env;

@@ -33,7 +33,7 @@ public class Encrypt {
                 str[k++] = hexDigits[byte0 >>> 4 & 0xf];
                 str[k++] = hexDigits[byte0 & 0xf];
             }
-            //System.out.println(str);
+            //log.info(str);
 
 
             //第二次加密

@@ -1,7 +1,6 @@
 package com.kevin.snake.bootlicense.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,13 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("webServiceTest")
+@Slf4j
 public class WebService {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(WebService.class);
 
     @RequestMapping(value = "test", method = RequestMethod.GET)
     public String test(@RequestParam("uname") String username) {
-        System.out.println("call ws");
+        log.info("call ws");
         return null;
 //        JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 //
@@ -74,7 +72,7 @@ public class WebService {
 //            e.printStackTrace();
 //        }
 //
-//        System.out.println(objects[0]);
+//        log.info(objects[0]);
 //
 //        return JSON.toJSONString(objects);
 

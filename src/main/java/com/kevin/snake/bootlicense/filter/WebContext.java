@@ -1,8 +1,11 @@
 package com.kevin.snake.bootlicense.filter;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class WebContext {
 
     private static ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<>();
@@ -31,7 +34,6 @@ public class WebContext {
         HttpServletRequest request = null;
         try {
             request = requestHolder.get();
-            System.out.println(request);
         } catch (Exception e) {
             e.printStackTrace();
         }

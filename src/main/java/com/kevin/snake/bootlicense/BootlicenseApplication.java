@@ -10,6 +10,8 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 public class BootlicenseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BootlicenseApplication.class, args);
+		System.setProperty("druid.logType", "log4j2");
+        System.setProperty("spring.config.location", "classpath:application.properties");
+        SpringApplication.run(BootlicenseApplication.class, args);
 	}
 }

@@ -1,6 +1,7 @@
 package com.kevin.snake.bootlicense.aop;
 
 import com.kevin.snake.bootlicense.filter.WebContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,8 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +22,8 @@ import java.lang.reflect.Method;
 
 @Aspect
 @Component
+@Slf4j
 public class SecurityAspect {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceAspect.class);
     private static final String DEFAULT_TOKEN_NAME = "X-Token";
 
     @Autowired
@@ -55,7 +54,7 @@ public class SecurityAspect {
     //只有添加了@needAnnotation注解的contorller中的方法才会被拦截,&&号的作用:两个条件必须同时满足,否则不触发aop拦截
     @Around("needAnnotation() && cutMethodRequest()")
     public Object execute(ProceedingJoinPoint pjp) throws Throwable {
-        LOGGER.info("=====token安全验证!!!=====");
+        log.info("=====token安全验证!!!=====");
         //从切点上面获取目标方法
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method method = methodSignature.getMethod();
@@ -66,14 +65,14 @@ public class SecurityAspect {
         }
 
         //从request header中获取当前token
-        System.out.println(WebContext.getRequest());
+        log.info("WebContext.getRequest():{}", WebContext.getRequest());
         if (StringUtils.isBlank(tokenName)) tokenName = DEFAULT_TOKEN_NAME;
         String token = WebContext.getRequest().getHeader(tokenName);
-        System.out.println("token is : " + token);
+        log.info("token is : " + token);
 
         //检查token的有效性
         if (!tokenManager.checkToken(token)) {
-            LOGGER.warn("=====token验证失败=====");
+            log.warn("=====token验证失败=====");
             String message = String.format("can't pass security check,token:{} is invalid", token);
             throw new TokenException(message);
         }

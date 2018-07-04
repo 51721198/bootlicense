@@ -1,13 +1,12 @@
 package com.kevin.snake.bootlicense.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 
+@Slf4j
 public class ByteArrayToObj {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ByteArrayToObj.class);
 
     public static Object ByteToObject(byte[] bytes) {
         Object obj = null;
@@ -19,7 +18,7 @@ public class ByteArrayToObj {
             bi.close();
             oi.close();
         } catch (Exception e) {
-            LOGGER.error("exception:{}", e);
+            log.error("exception:{}", e);
         }
         return obj;
     }

@@ -9,8 +9,7 @@
 
 package com.kevin.snake.bootlicense.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.net.URI;
@@ -22,14 +21,14 @@ import java.net.URL;
  * @author: Liu.Dun
  * @date: 2016年7月15日 下午2:52:39
  */
+@Slf4j
 public class ClassPathResourceURI {
-    private static Logger LOGGER = LoggerFactory.getLogger(ClassPathResourceURI.class);
 
     public static URI getResourceURI(String resource) {
         // If nothing found, null is returned
         URI uri = null;
         try {
-            LOGGER.debug("Loading: " + resource);
+            log.debug("Loading: " + resource);
             URL url = ClassPathResourceURI.class.getResource(resource);
 
             // If nothing is found, try it with or without the '/' in front.
@@ -45,7 +44,7 @@ public class ClassPathResourceURI {
             if (url != null)
                 uri = url.toURI();
         } catch (Exception e) {
-            LOGGER.error("Could not load resource.", e);
+            log.error("Could not load resource.", e);
         }
         return uri;
     }

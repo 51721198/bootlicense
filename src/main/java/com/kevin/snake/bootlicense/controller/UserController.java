@@ -7,8 +7,7 @@ import com.kevin.snake.bootlicense.pojo.ProcessResult;
 import com.kevin.snake.bootlicense.pojo.User;
 import com.kevin.snake.bootlicense.pojo.UserByPage;
 import com.kevin.snake.bootlicense.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +21,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user")
+@Slf4j
 public class UserController {
-    public static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
@@ -35,7 +34,7 @@ public class UserController {
         try {
             users = userService.SelectAllUsers();
         } catch (Exception e) {
-            LOGGER.error("exception:{}", e);
+            log.error("exception:{}", e);
         }
         return users;
     }
@@ -53,14 +52,14 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(JSON.toJSONString(result));
+        log.info(JSON.toJSONString(result));
         return result;
     }
 
     @RequestMapping(value = "addUser", method = RequestMethod.POST)
     public User addUser(@RequestBody User user) {
         int res = 0;
-        System.out.println("+++++" + user.getUsername());
+        log.info("+++++" + user.getUsername());
         try {
             res = userService.addUser(user);
         } catch (Exception e) {

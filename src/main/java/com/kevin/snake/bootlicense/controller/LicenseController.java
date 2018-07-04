@@ -8,9 +8,8 @@ import com.kevin.snake.bootlicense.pojo.ProcessResult;
 import com.kevin.snake.bootlicense.pojo.RSAKey;
 import com.kevin.snake.bootlicense.service.LicenseService;
 import com.kevin.snake.bootlicense.util.ClassPathResourceURI;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.validation.BindingResult;
@@ -29,8 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping(value = "license")
+
 
 /**
  *
@@ -39,9 +37,10 @@ import java.util.Map;
  * @author: Liu.Dun
  * @date: 2016年6月27日 下午8:40:05
  */
+@RestController
+@RequestMapping(value = "license")
+@Slf4j
 public class LicenseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(LicenseController.class);
 
     @Autowired
     private LicenseService licenseService;
@@ -59,7 +58,7 @@ public class LicenseController {
                 processResult.setResult(ProcessResultEnum.SUCCESS,codeMap);
             }
         } catch (Exception e) {
-            LOGGER.error("sourceCode exception:{}",hosnumber,duedate,e);
+            log.error("sourceCode exception:{}",hosnumber,duedate,e);
             throw e;
         }
         return processResult;
@@ -75,7 +74,7 @@ public class LicenseController {
             encryptResult.put(rsakey,encryptcode);
             processResult.setResult(ProcessResultEnum.SUCCESS,encryptResult);
         } catch (Exception e) {
-            LOGGER.error("encryptCode exception,sourcecode:{}",sourcecode,e);
+            log.error("encryptCode exception,sourcecode:{}",sourcecode,e);
         }
         return processResult;
     }
@@ -90,13 +89,13 @@ public class LicenseController {
     @RequestMapping(value = "showallcodes")
     public ProcessResult showAllCodes() {
         ProcessResult<List<LicenseDetail>> processResult = new ProcessResult<>();
-        System.out.println("controller方法执行！拦截这个方法!!!!!!!!!!!!!");
+        log.info("controller方法执行！拦截这个方法!!!!!!!!!!!!!");
 
         try {
             List<LicenseDetail> list = licenseService.listAllCodes();
             processResult.setResult(ProcessResultEnum.SUCCESS,list);
         } catch (Exception e) {
-            LOGGER.error("showAllCodes exception:{}",e);
+            log.error("showAllCodes exception:{}",e);
         }
         return processResult;
     }
@@ -146,7 +145,7 @@ public class LicenseController {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("deletecode serialNumberId:{} exception:{}",serialNumberId,e);
+            log.error("deletecode serialNumberId:{} exception:{}",serialNumberId,e);
         }
         return processResult;
     }
@@ -168,7 +167,7 @@ public class LicenseController {
         String nameofzip = "license.zip";
         creatsucess = licenseService.createZIPFile(Integer.parseInt(serialNumberId));
         if (!creatsucess) {
-            LOGGER.error("生成ZIP文件失败!");
+            log.error("生成ZIP文件失败!");
             return;
         }
 
@@ -179,7 +178,7 @@ public class LicenseController {
             IOUtils.copy(inputStream1, response.getOutputStream());
             response.flushBuffer();
         } catch (Exception e) {
-            LOGGER.error("exception:{}", e);
+            log.error("exception:{}", e);
         }
 
         try {
@@ -190,7 +189,7 @@ public class LicenseController {
                 processResult.setResult(ProcessResultEnum.UPD_FAIL);
             }
         } catch (Exception e) {
-            LOGGER.error("useLicense exception,serialNumberId:{}",serialNumberId,e);
+            log.error("useLicense exception,serialNumberId:{}",serialNumberId,e);
         }
     }
 
@@ -202,7 +201,7 @@ public class LicenseController {
         String nameofzip = "license.zip";
         creatsucess = licenseService.createZIPFile(Integer.parseInt(serialNumberId));
         if (!creatsucess) {
-            LOGGER.error("生成ZIP文件失败!");
+            log.error("生成ZIP文件失败!");
             return;
         }
 
@@ -213,7 +212,7 @@ public class LicenseController {
             IOUtils.copy(inputStream1, response.getOutputStream());
             response.flushBuffer();
         } catch (Exception e) {
-            LOGGER.error("exception{}", e);
+            log.error("exception{}", e);
         }
 
         try {
@@ -224,7 +223,7 @@ public class LicenseController {
                 processResult.setResult(ProcessResultEnum.UPD_FAIL);
             }
         } catch (Exception e) {
-            LOGGER.error("useLicense exception,serialNumberId:{}",serialNumberId,e);
+            log.error("useLicense exception,serialNumberId:{}",serialNumberId,e);
         }
     }
 
@@ -246,7 +245,7 @@ public class LicenseController {
          * 假如入参是application/x-www-form-urlencoded,则这种使用@RequestBody绑定会抛异常,去掉该注解后@valid正常
          */
         if (bindingResult.hasFieldErrors()) {
-            LOGGER.error("序列号参数绑定异常:" + bindingResult.getFieldError().getDefaultMessage());
+            log.error("序列号参数绑定异常:" + bindingResult.getFieldError().getDefaultMessage());
             processResult.setResult(ProcessResultEnum.INS_FAIL,bindingResult.getFieldError().getDefaultMessage());
             return processResult;
         }
@@ -254,10 +253,10 @@ public class LicenseController {
         try {
             int i = licenseService.saveCode(licensedetail);
             if (i != 1) {
-                LOGGER.warn("序列号保存失败" + licensedetail.toString());
+                log.warn("序列号保存失败" + licensedetail.toString());
             }
         } catch (Exception e) {
-            LOGGER.warn("序列号保存失败" + licensedetail.toString());
+            log.warn("序列号保存失败" + licensedetail.toString());
             processResult.setResult(ProcessResultEnum.INS_FAIL);
             return processResult;
         }

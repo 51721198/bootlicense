@@ -1,5 +1,7 @@
 package com.kevin.snake.bootlicense.util.md5;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -14,6 +16,7 @@ import java.util.Random;
  * @author: Liu.Dun
  * @date: 2016年7月10日 下午8:29:44
  */
+@Slf4j
 public class MD5CreateSourceCode {
 
     /**
@@ -48,8 +51,7 @@ public class MD5CreateSourceCode {
         sb.append("-");
 
         sb.append(dateToString(duedate));
-        System.out.println(sb.toString());
-        System.out.println(sb.length());
+        log.info(sb.toString());
         return sb.toString();
     }
 

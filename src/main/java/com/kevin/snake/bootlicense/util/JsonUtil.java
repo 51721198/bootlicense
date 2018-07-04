@@ -3,12 +3,11 @@ package com.kevin.snake.bootlicense.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kevin.snake.bootlicense.enums.SysMsgEnum;
 import com.kevin.snake.bootlicense.exception.BusinessException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 public class JsonUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtil.class);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private JsonUtil() {
@@ -30,7 +29,7 @@ public class JsonUtil {
         try {
             json = OBJECT_MAPPER.writeValueAsString(obj);
         } catch (Exception e) {
-            LOGGER.warn("convert POJO to JSON failure", e);
+            log.warn("convert POJO to JSON failure", e);
             throw new BusinessException(SysMsgEnum.JSON_CONVERT_ERROR);
         }
         return json;
@@ -52,7 +51,7 @@ public class JsonUtil {
         try {
             pojo = OBJECT_MAPPER.readValue(json, type);
         } catch (Exception e) {
-            LOGGER.warn("convert JSON to POJO failure", e);
+            log.warn("convert JSON to POJO failure", e);
             throw new BusinessException(SysMsgEnum.JSON_CONVERT_ERROR);
         }
         return pojo;
