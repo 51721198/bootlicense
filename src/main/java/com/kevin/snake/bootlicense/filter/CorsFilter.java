@@ -45,9 +45,6 @@ public class CorsFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;       //将servletRequest强制转换为httpServletRequest
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        log.info("cros can here!!!!!!!!");
-
-
         if (StringUtils.isNotBlank(allowOrigin)) {
             List<String> allowOriginList = Arrays.asList(allowOrigin.split(","));   //允许的客户端域名放入一个列表中,以逗号分隔,破解不允许指定多个域名的限制
             if (allowOriginList.size() != 0) {
