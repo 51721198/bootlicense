@@ -9,6 +9,7 @@ import com.kevin.snake.bootlicense.pojo.UserByPage;
 import com.kevin.snake.bootlicense.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -79,6 +80,7 @@ public class UserController {
         return res;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ProcessResult userLogin(@RequestBody User user) {
         ProcessResult<String> result = new ProcessResult<>();
