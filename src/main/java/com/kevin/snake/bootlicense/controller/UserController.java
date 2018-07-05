@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "login")
     public ProcessResult userLogin(@RequestBody User user) {
         ProcessResult<String> result = new ProcessResult<>();
         if (user == null){
