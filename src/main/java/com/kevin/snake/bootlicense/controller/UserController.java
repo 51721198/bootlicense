@@ -81,7 +81,7 @@ public class UserController {
 
 //    @CrossOrigin
     @RequestMapping(value = "login")
-    public ProcessResult userLogin(User user) {
+    public ProcessResult userLogin(@RequestBody User user) {
         ProcessResult<String> result = new ProcessResult<>();
         if (user == null){
             result.setResultcode(-1);
