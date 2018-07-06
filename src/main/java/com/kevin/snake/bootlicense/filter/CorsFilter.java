@@ -57,7 +57,7 @@ public class CorsFilter implements Filter {
 //                    response.setHeader("Access-Control-Allow-Origin", currentOrigin);
 //                }
                 String origin = "";
-                String referer = request.getHeader("referer");
+                String referer = request.getHeader("Referer");
                 if (StringUtils.isNotBlank(referer)){
                     URL url = new URL(referer);
                     origin = url.getProtocol() + "://" + url.getHost();
