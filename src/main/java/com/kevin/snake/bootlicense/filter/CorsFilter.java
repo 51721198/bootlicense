@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,13 +49,23 @@ public class CorsFilter implements Filter {
         if (StringUtils.isNotBlank(allowOrigin)) {
             List<String> allowOriginList = Arrays.asList(allowOrigin.split(","));   //允许的客户端域名放入一个列表中,以逗号分隔,破解不允许指定多个域名的限制
             if (allowOriginList.size() != 0) {
-                String currentOrigin = request.getHeader("Origin");
-                log.info("currentOrigin is:" + currentOrigin);
-                if (allowOriginList.contains(currentOrigin)) {  //如果请求的域名在允许列表当中,那就给请求加一个跨域的请求头
-                    log.info("cros can here!!!!!!!!");
-                    log.info(currentOrigin);
-                    response.setHeader("Access-Control-Allow-Origin", currentOrigin);
+//                String currentOrigin = request.getHeader("Origin");
+//                log.info("currentOrigin is:" + currentOrigin);
+//                if (allowOriginList.contains(currentOrigin)) {  //如果请求的域名在允许列表当中,那就给请求加一个跨域的请求头
+//                    log.info("cros can here!!!!!!!!");
+//                    log.info(currentOrigin);
+//                    response.setHeader("Access-Control-Allow-Origin", currentOrigin);
+//                }
+                String origin = "";
+                String referer = request.getHeader("referer");
+                if (StringUtils.isNotBlank(referer)){
+                    URL url = new URL(referer);
+                    origin = url.getProtocol() + "://" + url.getHost();
+                    response.addHeader("Access-Control-Allow-Origin", origin);
+                }else {
+                    response.addHeader("Access-Control-Allow-Origin", "*");
                 }
+                log.info("cros filter,the origin is:{}", origin);
             }
         }
         if (StringUtils.isNotEmpty(allowMethods)) {
