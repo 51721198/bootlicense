@@ -61,9 +61,9 @@ public class CorsFilter implements Filter {
                 if (StringUtils.isNotBlank(referer)){
                     URL url = new URL(referer);
                     origin = url.getProtocol() + "://" + url.getHost();
-                    response.addHeader("Access-Control-Allow-Origin", origin);
+                    response.setHeader("Access-Control-Allow-Origin", origin);
                 }else {
-                    response.addHeader("Access-Control-Allow-Origin", "*");
+                    response.setHeader("Access-Control-Allow-Origin", "*");
                 }
                 log.info("cros filter,the origin is:{}", origin);
             }
